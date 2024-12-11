@@ -25,6 +25,7 @@ function AllTransactionsTable() {
         <thead className="bg-gray-800">
           <tr>
             <th className="px-4 py-2 text-left text-sm font-medium text-white">Date</th>
+            <th className="px-4 py-2 text-left text-sm font-medium text-white">Client ID</th>
             <th className="px-4 py-2 text-left text-sm font-medium text-white">Client Name</th>
             <th className="px-4 py-2 text-left text-sm font-medium text-white">Account Number</th>
             <th className="px-4 py-2 text-left text-sm font-medium text-white">Transaction Type</th>
@@ -36,8 +37,9 @@ function AllTransactionsTable() {
           {transacts.map((transact) => (
             <tr key={transact.id} className="border-b border-gray-200 hover:bg-gray-100">
               <td className="px-4 py-2 text-sm text-gray-800">{new Date(transact.transactionDate).toLocaleDateString()}</td>
-              <td className="px-4 py-2 text-sm text-gray-800">{transact.firstName} {transact.lastName}</td>
               <td className="px-4 py-2 text-sm text-gray-800">{transact.clientId}</td>
+              <td className="px-4 py-2 text-sm text-gray-800">{transact.firstName} {transact.lastName}</td>
+              <td className="px-4 py-2 text-sm text-gray-800">{transact.accountNumber}</td>
               <td className="px-4 py-2 text-sm text-gray-800">{transact.transactionType}</td>
               <td className="px-4 py-2 text-sm text-gray-800">${parseFloat(transact.amount).toFixed(2)}</td>
               <td className="px-4 py-2 text-sm text-gray-800">${parseFloat(transact.balance).toFixed(2)}</td>
