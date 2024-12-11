@@ -7,7 +7,7 @@ const ClientAccounts = () => {
   const [clients, setClients] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:3000/admin/admin/getclients')
+    axios.get('https://mobileback-d8at.onrender.com/admin/admin/getclients')
       .then(response => {
         setClients(response.data);
       })

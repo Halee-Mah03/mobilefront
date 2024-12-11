@@ -12,7 +12,7 @@ const EmployeeList = () => {
 
   const fetchEmployees = () => {
     axios
-      .get('http://localhost:3000/admin/admin/getemployees')
+      .get('https://mobileback-d8at.onrender.com/admin/admin/getemployees')
       .then((response) => {
         setData(response.data);
       })
@@ -26,7 +26,7 @@ const EmployeeList = () => {
     const confirmDelete = window.confirm('Are you sure you want to delete this employee?');
     if (confirmDelete) {
       try {
-        await axios.delete(`http://localhost:3000/admin/employees/${employeeId}`);
+        await axios.delete(`https://mobileback-d8at.onrender.com/admin/employees/${employeeId}`);
         alert('Employee deleted successfully');
         
         // Update the state by removing the deleted employee

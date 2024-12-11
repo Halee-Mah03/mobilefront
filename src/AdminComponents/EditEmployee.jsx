@@ -15,7 +15,7 @@ const EditEmployee = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get(`http://localhost:3000/admin/admin/employees/${id}`)
+    axios.get(`https://mobileback-d8at.onrender.com/admin/admin/employees/${id}`)
       .then(result => {
         const empData = result.data;
         setEmployee({
@@ -31,7 +31,7 @@ const EditEmployee = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.patch(`http://localhost:3000/admin/employees/${id}`, employee)
+    axios.patch(`https://mobileback-d8at.onrender.com/admin/employees/${id}`, employee)
       .then((result) => {
         if (result.data.message === "Employee account updated successfully") {
           alert("Employee updated successfully");

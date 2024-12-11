@@ -17,7 +17,7 @@ const EmpLogin = () => {
       setLoading(true);
     
       axios
-        .post("http://localhost:3000/employee/employee/login", employee)
+        .post("https://mobileback-d8at.onrender.com/employee/employee/login", employee)
         .then((result) => {
           setLoading(false);
           if (result.data.token) {

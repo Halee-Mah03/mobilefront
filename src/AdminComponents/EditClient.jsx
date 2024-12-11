@@ -14,7 +14,7 @@ const EditClient = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get(`http://localhost:3000/admin/admin/clients/${id}`)
+    axios.get(`https://mobileback-d8at.onrender.com/admin/admin/clients/${id}`)
       .then(result => {
         const clData = result.data;
         setClient({
@@ -29,7 +29,7 @@ const EditClient = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.patch(`http://localhost:3000/admin/clients/${id}`, client)
+    axios.patch(`https://mobileback-d8at.onrender.com/admin/clients/${id}`, client)
       .then((result) => {
         if (result.data.message === "client account updated successfully") {
           alert("client updated successfully");

@@ -18,7 +18,7 @@ const Credit = () => {
     setErrorMessage('');
 
     try {
-      const response = await axios.post(`http://localhost:3000/employee/${clientId}/credit`, {
+      const response = await axios.post(`https://mobileback-d8at.onrender.com/employee/${clientId}/credit`, {
         amount: parseFloat(amount),
         description,
       });

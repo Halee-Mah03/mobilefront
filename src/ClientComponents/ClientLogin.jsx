@@ -22,7 +22,7 @@ const ClientLogin = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post("http://localhost:3000/user/login", client);
+      const response = await axios.post("https://mobileback-d8at.onrender.com/user/login", client);
       if (response.data.Status) {
         localStorage.setItem("token", response.data.token);
         navigate(`/dashboard/${response.data.clientId}`);

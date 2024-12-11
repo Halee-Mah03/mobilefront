@@ -6,7 +6,7 @@ const ClientTransaction = () => {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    axios.get('http://localhost:3000/user/transaction', {
+    axios.get('https://mobileback-d8at.onrender.com/user/transaction', {
       headers: {
         Authorization: `Bearer ${token}`,
       },

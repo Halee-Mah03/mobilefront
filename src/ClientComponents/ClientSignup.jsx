@@ -22,7 +22,7 @@ const ClientSignup = () => {
     if (client.password !== client.confirmPassword) {
       return;
     }
-    axios.post('http://localhost:3000/user/client/register', client)
+    axios.post('https://mobileback-d8at.onrender.com/user/client/register', client)
     .then((result) => {
       if (result.data.client) {
         navigate('/login', { replace: true });

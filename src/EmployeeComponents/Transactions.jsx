@@ -7,7 +7,7 @@ function AllTransactionsTable() {
   useEffect(() => {
     const fetchTransactions = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/employee/all-transactions');
+        const response = await axios.get('https://mobileback-d8at.onrender.com/employee/all-transactions');
         setTransacts(response.data);
       } catch (error) {
         console.error('Error fetching transactions:', error);

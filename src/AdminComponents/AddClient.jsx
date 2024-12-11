@@ -22,7 +22,7 @@ const AddClient = () => {
     if (client.password !== client.confirmPassword) {
       return;
     }
-    axios.post('http://localhost:3000/admin/admin/clients', client)
+    axios.post('https://mobileback-d8at.onrender.com/admin/admin/clients', client)
       .then(result => {
         if (result.data.message === "Client account created successfully") {
           navigate('/ad_dashboard');

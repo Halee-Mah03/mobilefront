@@ -28,7 +28,7 @@ const Debit = () => {
 
     try {
       // Fetch the current balance
-      const balanceResponse = await axios.get(`http://localhost:3000/employee/${clientId}/balance`);
+      const balanceResponse = await axios.get(`https://mobileback-d8at.onrender.com/employee/${clientId}/balance`);
       const currentBalance = balanceResponse.data.balance;
 
       if (parsedAmount > currentBalance) {
@@ -38,7 +38,7 @@ const Debit = () => {
       }
 
       // Proceed with debit transaction
-      const response = await axios.post(`http://localhost:3000/employee/${clientId}/debit`, {
+      const response = await axios.post(`https://mobileback-d8at.onrender.com/employee/${clientId}/debit`, {
         amount: parsedAmount,
         description,
       });
@@ -93,21 +93,21 @@ const Debit = () => {
         </div>
       </form>
 
-      {/* Success Message */}
+    
       {successMessage && (
         <div className="mt-4 text-green-600 bg-green-100 border border-green-300 p-3 rounded-md">
           {successMessage}
         </div>
       )}
 
-      {/* Error Message */}
+      
       {errorMessage && (
         <div className="mt-4 text-red-600 bg-red-100 border border-red-300 p-3 rounded-md">
           {errorMessage}
         </div>
       )}
 
-      {/* Spinner */}
+     
       {loading && (
         <div className="flex justify-center mt-4">
           <div className="loader border-t-2 border-gray-800 rounded-full w-6 h-6 animate-spin"></div>

@@ -8,7 +8,7 @@ const ClientList = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/admin/admin/getclients")
+      .get("https://mobileback-d8at.onrender.com/admin/admin/getclients")
       .then((response) => {
         setData(response.data);
       })
@@ -21,7 +21,7 @@ const ClientList = () => {
     const confirmDelete = window.confirm('Are you sure you want to delete this client?');
     if (confirmDelete) {
       try {
-        await axios.delete(`http://localhost:3000/admin/clients/${clientId}`);
+        await axios.delete(`https://mobileback-d8at.onrender.com/admin/clients/${clientId}`);
         alert('Client deleted successfully');
         
         // Update the state by removing the deleted client

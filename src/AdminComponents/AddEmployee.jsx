@@ -23,7 +23,7 @@ const AddEmployee = () => {
     if (employee.password !== employee.confirmPassword) {
       return;
     }
-    axios.post('http://localhost:3000/admin/admin/employees', employee)
+    axios.post('https://mobileback-d8at.onrender.com/admin/admin/employees', employee)
       .then((result) => {
         console.log(result.data.employee); // Log created employee data for verification
         if (result.data.message === "Employee account created successfully") {

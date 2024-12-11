@@ -9,11 +9,11 @@ const ClientDashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const clientResponse = await fetch(`http://localhost:3000/user/client/${clientId}`);
+        const clientResponse = await fetch(`https://mobileback-d8at.onrender.com/user/client/${clientId}`);
         const client = await clientResponse.json();
 
         const transactionsResponse = await fetch(
-          `http://localhost:3000/user/client/${clientId}/transactions`
+          `https://mobileback-d8at.onrender.com/user/client/${clientId}/transactions`
         );
         const transactions = await transactionsResponse.json();
 
