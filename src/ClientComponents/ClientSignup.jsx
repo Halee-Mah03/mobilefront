@@ -35,7 +35,7 @@ const ClientSignup = () => {
 
     // Send signup request
     axios
-      .post('https://mobileback-d8at.onrender.com/user/client/register', client)
+      .post('https://mobileback-d8at.onrender.com/user/register', client)
       .then((result) => {
         setLoading(false); // Set loading to false once the request is complete
         if (result.data.client) {
