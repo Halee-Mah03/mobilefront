@@ -6,25 +6,40 @@ import { useNavigate } from 'react-router-dom'
 
 const ClientLogin = () => {
   const navigate = useNavigate();
-  const [values, setValues] = useState({ email: '', password: '' });
-  const [error, setError] = useState(null);
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    axios.post('http://localhost:3000/cli/login', values)
-      .then((response) => {
-        if (response.data.loginStatus) {
-          localStorage.setItem('email', values.email); 
-          navigate('/dashboard');
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+  const [client, setClient] = useState({
+    email: '',
+    password: '',
+    showPassword: false,
+  });
+  const [loading, setLoading] = useState(false);
+
+  const handleChange = (e) => {
+    setClient({ ...client, [e.target.name]: e.target.value });
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const response = await axios.post("http://localhost:3000/user/login", client);
+      if (response.data.Status) {
+        localStorage.setItem("token", response.data.token);
+        navigate(`/dashboard/${response.data.clientId}`);
+      } else {
+        alert("Invalid credentials");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Login failed. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  }
+  
   return (
   
-    <div className="font-[sans-serif] bg-white flex items-center justify-center sm:h-screen">
+    <div className="font-[sans-serif]  flex items-center justify-center sm:h-screen">
       <div className="shadow-[0_2px_16px_-3px] max-w-6xl max-md:max-w-lg rounded-md p-6 mt-10">
         <div className="flex items-center gap-10">
           <div className="max-sm:order-1 lg:min-w-[450px]">
@@ -44,8 +59,14 @@ const ClientLogin = () => {
             </div>
             <div>
               <div className="relative flex items-center">
-                <input type="email" required className="w-full text-sm border-b border-gray-300 focus:border-blue-600 px-2 py-3 outline-none" placeholder="Email Address"
-                 onChange={(e)=> setValues({...values, email: e.target.value})}/>
+                <input type="email" 
+                name='email'
+                className="w-full text-sm border-b border-gray-300 focus:border-blue-600 px-2 py-3 outline-none" 
+                placeholder="Email Address"
+                value={client.email}
+                onChange={handleChange}
+                required
+                />
                <svg xmlns="http://www.w3.org/2000/svg" fill="#bbb" stroke="#bbb" className="w-[18px] h-[18px] absolute right-2" viewBox="0 0 682.667 682.667">
                     <defs>
                       <clipPath id="a" clipPathUnits="userSpaceOnUse">
@@ -62,11 +83,24 @@ const ClientLogin = () => {
 
             <div className="mt-8">
               <div className="relative flex items-center">
-                <input type="password" required className="w-full text-sm border-b border-gray-300 focus:border-blue-600 px-2 py-3 outline-none" placeholder="Enter password" 
-                 onChange={(e)=> setValues({...values, password: e.target.value})}/>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="#bbb" stroke="#bbb" className="w-[18px] h-[18px] absolute right-2 cursor-pointer" viewBox="0 0 128 128">
-                  <path d="M64 104C22.127 104 1.367 67.496.504 65.943a4 4 0 0 1 0-3.887C1.367 60.504 22.127 24 64 24s62.633 36.504 63.496 38.057a4 4 0 0 1 0 3.887C126.633 67.496 105.873 104 64 104zM8.707 63.994C13.465 71.205 32.146 96 64 96c31.955 0 50.553-24.775 55.293-31.994C114.535 56.795 95.854 32 64 32 32.045 32 13.447 56.775 8.707 63.994zM64 88c-13.234 0-24-10.766-24-24s10.766-24 24-24 24 10.766 24 24-10.766 24-24 24zm0-40c-8.822 0-16 7.178-16 16s7.178 16 16 16 16-7.178 16-16-7.178-16-16-16z" data-original="#000000"></path>
-                </svg>
+                <input type={client.showPassword ? 'text' : 'password'}
+                name='password'
+                value={client.password}
+                className="w-full text-sm border-b border-gray-300 focus:border-blue-600 px-2 py-3 outline-none"
+                placeholder="Enter password" 
+                onChange={handleChange}
+                required
+                />
+                   <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="#bbb"
+      stroke="#bbb"
+      className="w-[18px] h-[18px] absolute right-2 cursor-pointer"
+      viewBox="0 0 128 128"
+      onClick={() => setClient({ ...client, showPassword: !client.showPassword })}
+    >
+      <path d="M64 104C22.127 104 1.367 67.496.504 65.943a4 4 0 0 1 0-3.887C1.367 60.504 22.127 24 64 24s62.633 36.504 63.496 38.057a4 4 0 0 1 0 3.887C126.633 67.496 105.873 104 64 104zM8.707 63.994C13.465 71.205 32.146 96 64 96c31.955 0 50.553-24.775 55.293-31.994C114.535 56.795 95.854 32 64 32 32.045 32 13.447 56.775 8.707 63.994zM64 88c-13.234 0-24-10.766-24-24s10.766-24 24-24 24 10.766 24 24-10.766 24-24 24zm0-40c-8.822 0-16 7.178-16 16s7.178 16 16 16 16-7.178 16-16-7.178-16-16-16z" data-original="#000000"></path>
+    </svg>
               </div>
             </div>
 
@@ -86,13 +120,15 @@ const ClientLogin = () => {
               Don't have an account <button type="button" onClick={() => {navigate ('/signup')}} className="text-gray-900 font-semibold hover:underline ml-1 whitespace-nowrap">Register here</button>
               </p>
             </div>
-
             <div className="mt-5">
-              <button type="submit" className="w-full shadow-xl py-2.5 px-5 text-sm font-semibold rounded-md text-white bg-gray-900 hover:bg-gray-700 focus:outline-none">
-                Sign in
+              <button
+                type="submit"
+                className="w-full shadow-xl py-2.5 px-5 text-sm font-semibold rounded-md text-white bg-gray-900 hover:bg-gray-700 focus:outline-none"
+                disabled={loading} // Disable button when loading
+              >
+                {loading ? 'Signing in...' : 'Sign in'}
               </button>
             </div>
-            {error && error}
           </form>
         </div>
       </div>

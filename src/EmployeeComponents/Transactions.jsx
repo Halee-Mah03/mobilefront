@@ -1,52 +1,52 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const Transactions = () => {
-  const [transactions, setTransactions] = useState([]);
+function AllTransactionsTable() {
+  const [transacts, setTransacts] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:3000/emp/transactions')
-      .then(response => {
-        setTransactions(response.data);
-      })
-      .catch(error => {
-        alert(error.message);
-      });
+    const fetchTransactions = async () => {
+      try {
+        const response = await axios.get('http://localhost:3000/employee/all-transactions');
+        setTransacts(response.data);
+      } catch (error) {
+        console.error('Error fetching transactions:', error);
+        alert('Failed to load transactions');
+      }
+    };
+
+    fetchTransactions();
   }, []);
 
   return (
-    <div>
-    <div className='flex justify-center py-5'>
-        <h3 className='font-bold'>TRANSACTIONS HISTORY</h3>
-      </div>
-    <table className='min-w-full divide-y divide-gray-600'>
-      <thead>
-        <tr>
-          <th className='p-4 text-left text-sm font-medium text-blue'>Transaction ID</th>
-          <th className='p-4 text-left text-sm font-medium text-blue'>Date</th>
-          <th className='p-4 text-left text-sm font-medium text-blue'>Account Number</th>
-          <th className='p-4 text-left text-sm font-medium text-blue'>Type</th>
-          <th className='p-4 text-left text-sm font-medium text-blue'>Amount</th>
-          <th className='p-4 text-left text-sm font-medium text-blue'>Balance</th>
-          <th className='p-4 text-left text-sm font-medium text-blue'>Description</th>
-        </tr>
-      </thead>
-      <tbody className='bg-white divide-y divide-gray-600 whitespace-nowrap'>
-        {transactions.map(transaction => (
-          <tr key={transaction.transaction_id}>
-            <td className='p-4 text-sm text-black'>{transaction.transaction_id}</td>
-            <td className='p-4 text-sm text-black'>{transaction.transaction_date}</td>
-            <td className='p-4 text-sm text-black'>{transaction.account_number}</td>
-            <td className='p-4 text-sm text-black'>{transaction.transaction_type}</td>
-            <td className='p-4 text-sm text-black'>{transaction.amount}</td>
-            <td className='p-4 text-sm text-black'>{transaction.balance}</td>
-            <td className='p-4 text-sm text-black'>{transaction.description}</td>
+    <div className="overflow-x-auto">
+      <h2 className="text-2xl text-center font-semibold mb-4">All Transactions</h2>
+      <table className="min-w-full bg-white border border-gray-300 rounded-lg shadow-lg">
+        <thead className="bg-gray-800">
+          <tr>
+            <th className="px-4 py-2 text-left text-sm font-medium text-white">Date</th>
+            <th className="px-4 py-2 text-left text-sm font-medium text-white">Client Name</th>
+            <th className="px-4 py-2 text-left text-sm font-medium text-white">Account Number</th>
+            <th className="px-4 py-2 text-left text-sm font-medium text-white">Transaction Type</th>
+            <th className="px-4 py-2 text-left text-sm font-medium text-white">Amount</th>
+            <th className="px-4 py-2 text-left text-sm font-medium text-white">Balance</th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {transacts.map((transact) => (
+            <tr key={transact.id} className="border-b border-gray-200 hover:bg-gray-100">
+              <td className="px-4 py-2 text-sm text-gray-800">{new Date(transact.transactionDate).toLocaleDateString()}</td>
+              <td className="px-4 py-2 text-sm text-gray-800">{transact.firstName} {transact.lastName}</td>
+              <td className="px-4 py-2 text-sm text-gray-800">{transact.clientId}</td>
+              <td className="px-4 py-2 text-sm text-gray-800">{transact.transactionType}</td>
+              <td className="px-4 py-2 text-sm text-gray-800">${parseFloat(transact.amount).toFixed(2)}</td>
+              <td className="px-4 py-2 text-sm text-gray-800">${parseFloat(transact.balance).toFixed(2)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
-  );
+  );  
 }
 
-export default Transactions
+export default AllTransactionsTable;

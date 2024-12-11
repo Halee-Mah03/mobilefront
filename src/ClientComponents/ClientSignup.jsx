@@ -1,32 +1,37 @@
 import React, { useState } from 'react'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom';
 
 const ClientSignup = () => {
+  const navigate = useNavigate();
   const [client, setClient] = useState({
-    first_name: '',
-    last_name: '',
+    firstName: '',
+    lastName: '',
     email: '',
-    password: '',
     address: '',
+    password: '',
+    confirmPassword: '',
   });
+
   const handleChange = (e) => {
-    setClient({ ...client, [e.target.name]: e.target.value });
+    setClient({ ...client, [e.target.name]: e.target.value });
   };
-  
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('http://localhost:3000/cli/register', client)
-    .then(result => {
-        if(result.data.Status) {
-          window.location.href = '/login';
-        } else {
-            alert(result.data.Error)
-        }
+    if (client.password !== client.confirmPassword) {
+      return;
+    }
+    axios.post('http://localhost:3000/user/client/register', client)
+    .then((result) => {
+      if (result.data.client) {
+        navigate('/login', { replace: true });
+      }
     })
-    .catch((err) => console.log(err))
+    .catch((err) => console.log(err));  
   };
-    
+  
+
   return (
     <div>
       <div className="text-center bg-gradient-to-r from-gray-800 to-pink-400 min-h-[160px] sm:p-6 p-4">
@@ -43,8 +48,8 @@ const ClientSignup = () => {
                 type="text"
                 className="bg-gray-100 focus:bg-transparent w-full text-sm text-gray-800 px-4 py-3 rounded-md outline-gray-500 transition-all"
                 placeholder="Enter First Name"
-                name='first_name'
-                value={client.first_name}
+                name='firstName'
+                value={client.firstName}
                 onChange={handleChange}
                 required
               />
@@ -58,8 +63,8 @@ const ClientSignup = () => {
                 type="text"
                 className="bg-gray-100 focus:bg-transparent w-full text-sm text-gray-800 px-4 py-3 rounded-md outline-gray-500 transition-all"
                 placeholder="Enter Last Name"
-                name='last_name'
-                value={client.last_name}
+                name='lastName'
+                value={client.lastName}
                 onChange={handleChange}
                 required
               />
@@ -78,7 +83,6 @@ const ClientSignup = () => {
                 required
               />
             </div>
-
             <div>
               <label className="text-gray-800 text-sm mb-2 block">
                 Address
@@ -93,10 +97,23 @@ const ClientSignup = () => {
                 required
               />
             </div>
-
             <div>
               <label className="text-gray-800 text-sm mb-2 block">
                 Password
+              </label>
+              <input
+                type="password"
+                className="bg-gray-100 focus:bg-transparent w-full text-sm text-gray-800 px-4 py-3 rounded-md outline-gray-500 transition-all"
+                placeholder="Enter password"
+                name='confirmPassword'
+                value={client.confirmPassword}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div>
+              <label className="text-gray-800 text-sm mb-2 block">
+                 Confirm Password
               </label>
               <input
                 type="password"
@@ -107,10 +124,16 @@ const ClientSignup = () => {
                 onChange={handleChange}
                 required
               />
+               {client.password !== client.confirmPassword && (
+    <p className="text-red-500 text-sm mt-2">
+      Passwords do not match
+    </p>
+  )}
             </div>
+
           </div>
-          <div className="mt-8">
-            <button type="submit" className=" text-center py-3 px-9 text-sm tracking-wider font-semibold rounded-md text-white bg-gray-900 hover:bg-pink-600 focus:outline-none">
+          <div className="mt-8 flex-justify-center">
+            <button type="submit" className="text-center py-3 px-20 text-sm tracking-wider font-semibold rounded-md text-white bg-gray-500 hover:bg-pink-600 focus:outline-none">
               Sign up
             </button>
           </div>

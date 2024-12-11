@@ -24,6 +24,7 @@ import Debit from './EmployeeComponents/Debit'
 import Credit from './EmployeeComponents/Credit'
 import Transactions from './EmployeeComponents/Transactions'
 import EmpHome from './EmployeeComponents/EmpHome'
+import LogoutButton from '../Logout';
 
 function App() {
   
@@ -38,7 +39,8 @@ function App() {
       <Route path='/reset' element={<ForgotPassword/>}></Route>
       <Route path='/adlogin' element={<AdminLogin/>}></Route>
       <Route path='/emplogin' element={<EmpLogin/>}></Route>
-      <Route path='/dashboard' element={<ClientDashboard/>}></Route>
+      <Route path="/dashboard/:clientId" element={<ClientDashboard />} />
+      <Route path="/logout" element={<LogoutButton/>} />
       <Route path='/transactions/:id' element={<ClientTransaction/>}></Route>
   
 
@@ -55,8 +57,8 @@ function App() {
       <Route path='' element={<EmpHome/>}></Route>
       <Route path='/dashboards/clientaccounts' element={<ClientAccounts/>}></Route>
       <Route path='/dashboards/transactions' element={<Transactions/>}></Route>
-      <Route path='/dashboards/credit' element={<Credit/>}></Route>
-      <Route path='/dashboards/debit/:id' element={<Debit/>}></Route>
+      <Route path='/dashboards/credit/:clientId' element={<Credit/>}></Route>
+      <Route path='/dashboards/debit/:clientId' element={<Debit/>}></Route>
       </Route>
     </Routes>
     </BrowserRouter>

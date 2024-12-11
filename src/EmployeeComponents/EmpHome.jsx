@@ -1,26 +1,21 @@
-import React, { useEffect, useState } from 'react'
-import axios from 'axios';
+import React, { useEffect, useState } from "react";
 
 const EmpHome = () => {
-  const [employeeName, setEmployeeName] = useState('');
-  
+
+  const [employeeName, setEmployeeName] = useState("");
+
   useEffect(() => {
-    axios.get(`http://localhost:3000/emp/employee-name`) 
-      .then((response) => {
-        setEmployeeName(response.data.name);
-      })
-      .catch((error) => {
-        console.error('Error fetching employee name:', error);
-      });
+    const name = localStorage.getItem("employeeName"); 
+    setEmployeeName(name || "Employee"); 
   }, []);
 
 
   return (
     <div>
          <div className='grid md:grid-cols-3 gap-6 min-h-[164px] py-8 p-16 bg-gradient-to-r from-gray-900 via-gray-700 to-gray-900 font-sans tracking-wide'>
-      <div className="md:col-span-2">
-      <h1 className="text-3xl font-bold text-white">Welcome, Staff {employeeName.FirstName} {employeeName.LastName}</h1>
-      </div>
+      <div className='md:col-span-2'>
+        <h1 className='text-3xl font-bold text-white'>Welcome {employeeName} !</h1>
+    </div>
     </div>
     <div class="bg-gray-50 px-4 py-12 font-[sans-serif]">
         <div className="grid lg:grid-cols-3 md:grid-cols-2 max-md:max-w-lg mx-auto">
@@ -31,7 +26,7 @@ const EmpHome = () => {
                   <path d="M0 512h512V0H0Z" data-original="#000000" />
                 </clipPath>
               </defs>
-              <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="40" clip-path="url(#a)" transform="matrix(1.33 0 0 -1.33 0 682.667)">
+              <g fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeMiterlimit="10" strokeWidth="40" clipPath="url(#a)" transform="matrix(1.33 0 0 -1.33 0 682.667)">
                 <path d="M256 492 60 410.623v-98.925C60 183.674 137.469 68.38 256 20c118.53 48.38 196 163.674 196 291.698v98.925z" data-original="#000000" />
                 <path d="M178 271.894 233.894 216 334 316.105" data-original="#000000" />
               </g>
@@ -54,7 +49,7 @@ const EmpHome = () => {
 
           <div className="p-6 flex gap-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-all">
             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="w-12 h-12 bg-gray-100 p-3 rounded-md shrink-0" viewBox="0 0 24 24">
-              <g fill-rule="evenodd" clip-rule="evenodd">
+              <g fillRule="evenodd" clipRule="evenodd">
                 <path d="M17.03 8.97a.75.75 0 0 1 0 1.06l-4.2 4.2a.75.75 0 0 1-1.154-.114l-1.093-1.639L8.03 15.03a.75.75 0 0 1-1.06-1.06l3.2-3.2a.75.75 0 0 1 1.154.114l1.093 1.639L15.97 8.97a.75.75 0 0 1 1.06 0z" data-original="#000000" />
                 <path d="M13.75 9.5a.75.75 0 0 1 .75-.75h2a.75.75 0 0 1 .75.75v2a.75.75 0 0 1-1.5 0v-1.25H14.5a.75.75 0 0 1-.75-.75z" data-original="#000000" />
                 <path d="M3.095 3.095C4.429 1.76 6.426 1.25 9 1.25h6c2.574 0 4.57.51 5.905 1.845C22.24 4.429 22.75 6.426 22.75 9v6c0 2.574-.51 4.57-1.845 5.905C19.571 22.24 17.574 22.75 15 22.75H9c-2.574 0-4.57-.51-5.905-1.845C1.76 19.571 1.25 17.574 1.25 15V9c0-2.574.51-4.57 1.845-5.905zm1.06 1.06C3.24 5.071 2.75 6.574 2.75 9v6c0 2.426.49 3.93 1.405 4.845.916.915 2.419 1.405 4.845 1.405h6c2.426 0 3.93-.49 4.845-1.405.915-.916 1.405-2.419 1.405-4.845V9c0-2.426-.49-3.93-1.405-4.845C18.929 3.24 17.426 2.75 15 2.75H9c-2.426 0-3.93.49-4.845 1.405z" data-original="#000000" />
@@ -89,7 +84,7 @@ const EmpHome = () => {
                   <path d="M0 512h512V0H0Z" data-original="#000000" />
                 </clipPath>
               </defs>
-              <g fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="30" clip-path="url(#a)" transform="matrix(1.33 0 0 -1.33 0 682.667)">
+              <g fill="none" stroke="currentColor" strokeMiterlimit="10" strokeWidth="30" clipPath="url(#a)" transform="matrix(1.33 0 0 -1.33 0 682.667)">
                 <path d="M226 15v60c0 16.568-13.432 30-30 30H76c-16.568 0-30-13.432-30-30V15Zm-45 165c0-24.853-20.147-45-45-45s-45 20.147-45 45 20.147 45 45 45 45-20.147 45-45ZM466 15v60c0 16.568-13.432 30-30 30H316c-16.568 0-30-13.432-30-30V15Zm-45 165c0-24.853-20.147-45-45-45s-45 20.147-45 45 20.147 45 45 45 45-20.147 45-45Zm-75 167v-50.294L286 347h-60.002L166 296.706V347h-15c-41.421 0-75 33.579-75 75s33.579 75 75 75h210c41.421 0 75-33.579 75-75s-33.579-75-75-75Zm-105 75h30m-90 0h30m90 0h30" data-original="#000000" />
               </g>
             </svg>
@@ -108,7 +103,6 @@ const EmpHome = () => {
               <p className="text-gray-600 text-sm">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos,delectus rerum voluptatibus a voluptates explicabo?</p>
             </div>
           </div>
-
         </div>
       </div>
     </div>
