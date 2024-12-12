@@ -17,14 +17,8 @@ const EditClient = () => {
 
   useEffect(() => {
     axios.get(`https://mobileback-d8at.onrender.com/admin/clients/${id}`)
-      .then(result => {
-        const clData = result.data;
-        setClient({
-          firstName: clData.firstName || '',
-          lastName: clData.lastName || '',
-          email: clData.email || '',
-          address: clData.address || '',
-        });
+      .then(response => {
+        setClient(response.data);
         setLoading(false);
       })
       .catch(err => {
@@ -36,6 +30,11 @@ const EditClient = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!client.firstName || !client.lastName || !client.email || !client.address) {
+      alert("All fields are required.");
+      return;
+    }
+
     axios.patch(`https://mobileback-d8at.onrender.com/admin/clients/${id}`, client)
       .then(result => {
         if (result.data.message === "client account updated successfully") {
@@ -51,8 +50,8 @@ const EditClient = () => {
       });
   };
 
-  if (loading) return <p>Loading client details...</p>;
-  if (error) return <p className="text-red-500">{error}</p>;
+  if (loading) return <div className="text-center text-gray-700">Loading client details...</div>;
+  if (error) return <div className="text-red-500 text-center">{error}</div>;
 
   return (
     <form onSubmit={handleSubmit} className="max-w-md w-full mx-auto bg-gray-100 shadow-lg p-8 mt-12 rounded-lg border border-gray-300">
@@ -66,6 +65,7 @@ const EditClient = () => {
             className="bg-white border border-gray-300 text-sm px-4 py-2 rounded focus:outline-none focus:border-gray-500"
             value={client.firstName}
             onChange={(e) => setClient({ ...client, firstName: e.target.value })}
+            required
           />
         </div>
         <div className="flex flex-col">
@@ -77,6 +77,7 @@ const EditClient = () => {
             className="bg-white border border-gray-300 text-sm px-4 py-2 rounded focus:outline-none focus:border-gray-500"
             value={client.lastName}
             onChange={(e) => setClient({ ...client, lastName: e.target.value })}
+            required
           />
         </div>
         <div className="flex flex-col">
@@ -88,6 +89,7 @@ const EditClient = () => {
             className="bg-white border border-gray-300 text-sm px-4 py-2 rounded focus:outline-none focus:border-gray-500"
             value={client.email}
             onChange={(e) => setClient({ ...client, email: e.target.value })}
+            required
           />
         </div>
         <div className="flex flex-col">
@@ -99,13 +101,14 @@ const EditClient = () => {
             className="bg-white border border-gray-300 text-sm px-4 py-2 rounded focus:outline-none focus:border-gray-500"
             value={client.address}
             onChange={(e) => setClient({ ...client, address: e.target.value })}
+            required
           />
         </div>
         <button
           type="submit"
           className="bg-gray-700 hover:bg-gray-800 text-white font-semibold py-2 px-4 rounded transition duration-300"
         >
-          Edit Client
+          Update Client
         </button>
       </div>
     </form>
