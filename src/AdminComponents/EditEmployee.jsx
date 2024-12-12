@@ -15,7 +15,7 @@ const EditEmployee = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get(`https://mobileback-d8at.onrender.com/admin/admin/employees/${id}`)
+    axios.get(`https://mobileback-d8at.onrender.com/admin/employees/${id}`)
       .then(result => {
         const empData = result.data;
         setEmployee({
