@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 
 const EditEmployee = () => {
-  const { id } = useParams(); // Extract employee ID from the URL
+  const { id } = useParams();
   const [employee, setEmployee] = useState({
     firstName: '',
     lastName: '',
@@ -11,56 +11,62 @@ const EditEmployee = () => {
     salary: '',
     department: '',
   });
-  const [loading, setLoading] = useState(true); // Track loading state
+
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios
-      .get(`https://mobileback-d8at.onrender.com/employees/${id}`)
-      .then((response) => {
-        setEmployee(response.data); // Populate the form with fetched data
-        setLoading(false); // Data is loaded
+    setLoading(true);
+    axios.get(`https://mobileback-d8at.onrender.com/admin/admin/employees/${id}`)
+      .then(result => {
+        const empData = result.data;
+        setEmployee({
+          firstName: empData.firstName,
+          lastName: empData.lastName,
+          email: empData.email,
+          salary: empData.salary,
+          department: empData.department,
+        });
+        setLoading(false);
       })
-      .catch((err) => {
-        console.error('Error fetching employee details:', err);
-        alert('Failed to fetch employee details. Please try again later.');
+      .catch(err => {
+        console.error("Error fetching employee data:", err);
+        setError('Failed to fetch employee details. Please try again.');
         setLoading(false);
       });
   }, [id]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Submit updated employee data
-    axios
-      .patch(`https://mobileback-d8at.onrender.com/employees/${id}`, employee)
-      .then((response) => {
-        if (response.data.message === 'Employee account updated successfully') {
-          alert('Employee updated successfully');
+    if (!employee.firstName || !employee.lastName || !employee.email || !employee.salary || !employee.department) {
+      alert("All fields are required.");
+      return;
+    }
+
+    axios.patch(`https://mobileback-d8at.onrender.com/admin/employees/${id}`, employee)
+      .then((result) => {
+        if (result.data.message === "Employee account updated successfully") {
+          alert("Employee updated successfully");
           navigate('/ad_dashboard/employee');
         } else {
-          alert(`Error: ${response.data.message}`);
+          alert(`Error: ${result.data.message}`);
         }
       })
       .catch((err) => {
-        console.error('Error updating employee:', err);
-        alert('Failed to update employee. Please try again.');
+        console.error("Error updating employee:", err.response?.data || err.message);
+        alert("Failed to update employee. Please try again.");
       });
   };
 
-  if (loading) {
-    return <div>Loading...</div>; // Show a loading message while fetching data
-  }
+  if (loading) return <p>Loading employee details...</p>;
+  if (error) return <p className="text-red-500">{error}</p>;
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="max-w-md w-full mx-auto bg-gray-100 shadow-lg p-8 mt-12 rounded-lg border border-gray-300"
-    >
+    <form onSubmit={handleSubmit} className="max-w-md w-full mx-auto bg-gray-100 shadow-lg p-8 mt-12 rounded-lg border border-gray-300">
       <div className="space-y-4">
         <div className="flex flex-col">
-          <label htmlFor="firstName" className="text-gray-700 mb-2">
-            First Name
-          </label>
+          <label htmlFor="firstName" className="text-gray-700 mb-2">First Name</label>
           <input
             id="firstName"
             type="text"
@@ -72,9 +78,7 @@ const EditEmployee = () => {
           />
         </div>
         <div className="flex flex-col">
-          <label htmlFor="lastName" className="text-gray-700 mb-2">
-            Last Name
-          </label>
+          <label htmlFor="lastName" className="text-gray-700 mb-2">Last Name</label>
           <input
             id="lastName"
             type="text"
@@ -86,9 +90,7 @@ const EditEmployee = () => {
           />
         </div>
         <div className="flex flex-col">
-          <label htmlFor="email" className="text-gray-700 mb-2">
-            Email
-          </label>
+          <label htmlFor="email" className="text-gray-700 mb-2">Email</label>
           <input
             id="email"
             type="email"
@@ -100,9 +102,7 @@ const EditEmployee = () => {
           />
         </div>
         <div className="flex flex-col">
-          <label htmlFor="salary" className="text-gray-700 mb-2">
-            Salary
-          </label>
+          <label htmlFor="salary" className="text-gray-700 mb-2">Salary</label>
           <input
             id="salary"
             type="text"
@@ -114,9 +114,7 @@ const EditEmployee = () => {
           />
         </div>
         <div className="flex flex-col">
-          <label htmlFor="department" className="text-gray-700 mb-2">
-            Department
-          </label>
+          <label htmlFor="department" className="text-gray-700 mb-2">Department</label>
           <select
             id="department"
             className="bg-white border border-gray-300 text-sm px-4 py-2 rounded focus:outline-none focus:border-gray-500"
